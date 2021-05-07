@@ -18,15 +18,15 @@ module.exports = class StylesTask extends Task {
     return {
       styles: {
         files: [
-          'gulp/src/**/*.sass',
-          '!./gulp/src/vendor/**/*.sass',
-          '!./gulp/src/variables/*.sass',
-          '!gulp/src/**/_*.sass'
+          'src/**/*.sass',
+          '!./src/vendor/**/*.sass',
+          '!./src/variables/*.sass',
+          '!src/**/_*.sass'
         ],
-        variables: './gulp/src/variables',
+        variables: './src/variables',
         dest: './built/styles',
         watch: [
-          'gulp/src/**/*.sass',
+          'src/**/*.sass',
         ],
       },
     };

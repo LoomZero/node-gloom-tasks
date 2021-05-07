@@ -12,7 +12,7 @@ module.exports = class AssetsTask extends Task {
     return {
       assets: {
         dest: 'built/assets',
-        src: 'gulp/src/assets/**/*',
+        src: 'src/assets/**/*',
       },
     };
   }

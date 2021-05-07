@@ -18,12 +18,12 @@ module.exports = class ScriptsTask extends Task {
     return {
       scripts: {
         files: [
-          'gulp/src/**/*.js',
-          '!gulp/src/vendor/**/*.js'
+          'src/**/*.js',
+          '!src/vendor/**/*.js'
         ],
         dest: './built/scripts',
         watch: [
-          'gulp/src/**/*.js',
+          'src/**/*.js',
         ],
       },
     };

@@ -4,6 +4,8 @@ const Glob = require('glob');
 const Path = require('path');
 const Yaml = require('js-yaml');
 const FS = require('fs');
+const Chalk = require('chalk');
+const Similarity = require('string-similarity');
 
 module.exports = class RegisterTask extends Task {
 
@@ -18,12 +20,54 @@ module.exports = class RegisterTask extends Task {
   defaultConfig() {
     return {
       register: {
-        src: 'gulp/src/+(base|components)/**/*.+(sass|js|yml)',
-        watch: {
-          change: ['gulp/src/+(base|components)/**/*.yml'],
-          link: ['gulp/src/+(base|components)/**/*.+(sass|js|yml)'],
+        validate: {
+          type: 'object',
+          properties: {
+            library: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                },
+                js: {
+                  type: ['object', 'string'],
+                },
+                css: {
+                  type: ['object', 'string'],
+                  properties: {
+                    base: {
+                      type: 'object',
+                    },
+                    layout: {
+                      type: 'object',
+                    },
+                    component: {
+                      type: 'object',
+                    },
+                    state: {
+                      type: 'object',
+                    },
+                    theme: {
+                      type: 'object',
+                    },
+                  },
+                  additionalProperties: false,
+                },
+                dependencies: {
+                  type: 'array',
+                },
+              },
+              additionalProperties: false,
+            },
+            additionalProperties: false,
+          },
         },
-        headRegex: 'gulp\/src\/([^\/]*)',
+        src: 'src/+(base|components)/**/*.+(sass|js|yml)',
+        watch: {
+          change: ['src/+(base|components)/**/*.yml'],
+          link: ['src/+(base|components)/**/*.+(sass|js|yml)'],
+        },
+        headRegex: 'src\/([^\/]*)',
         defaultType: {
           css: 'static',
           js: 'static',
@@ -45,6 +89,8 @@ module.exports = class RegisterTask extends Task {
 
   task(config, manager) {
     Gulp.task('register', function(cb) {
+      const validate = require('jsonschema').validate;
+
       const theme = Path.basename(manager.path());
       const target = manager.path(theme + '.libraries.yml');
       const vendor = Yaml.load(FS.readFileSync(manager.path(config.vendor, 'vendor.yml')).toString());
@@ -63,6 +109,14 @@ module.exports = class RegisterTask extends Task {
           data[name][parse.ext.substring(1)] = parse;
           if (parse.ext.substring(1) === 'yml') {
             data[name].info = Yaml.load(FS.readFileSync(file).toString());
+            try {
+              RegisterTask.logValidateErrors(data[name], validate(data[name].info, config.register.validate), config);
+            } catch (e) {
+              console.log(Chalk.red('-'.repeat(process.stdout.columns)));
+              console.log(Chalk.red('[BETA ERROR]: Please inform the developer about the error. This error don\'t abort the compile process.'));
+              console.log(e);
+              console.log(Chalk.red('-'.repeat(process.stdout.columns)));
+            }
           }
         }
 
@@ -153,6 +207,30 @@ module.exports = class RegisterTask extends Task {
 
   static onChange(path) {
     console.log('Trigger "register" by changing "' + Path.basename(path) + '"');
+  }
+
+  static logValidateErrors(data, result, config) {
+    if (result.errors) {
+      for (const error of result.errors) {
+        console.log(Chalk.yellow('[WARNING]: (' + data.yml.base + ') ' + Chalk.cyan('"' + error.path.join('.') + '"') + ' ' + error.message));
+        if (typeof error.argument === 'string') {
+          const guess = Similarity.findBestMatch(error.argument, RegisterTask.getSchemaOptions(config.register.validate, error.path)).bestMatch.target;
+          console.log(Chalk.cyan('[NOTE]: Do you mean "' + guess + '"?'));
+        }
+      }
+    }
+  }
+
+  static getSchemaOptions(schema, path) {
+    for (const prop of path) {
+      schema = schema.properties[prop];
+    }
+    const options = [];
+
+    for (const field in schema.properties) {
+      options.push(field);
+    }
+    return options;
   }
 
 };
