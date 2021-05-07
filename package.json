@@ -1,0 +1,24 @@
+{
+  "name": "gloom-tasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TerraZero",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "glob": "^7.1.7",
+    "gulp": "^4.0.2",
+    "gulp-changed": "^4.0.2",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-twig": "^1.2.0",
+    "gulp-uglify": "^3.0.2",
+    "js-yaml": "^4.1.0",
+    "jsonschema": "^1.4.0",
+    "string-similarity": "^4.0.4"
+  }
+}
