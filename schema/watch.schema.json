@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "watchers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -25,9 +25,7 @@ module.exports = class StylesTask extends Task {
         ],
         variables: './src/variables',
         dest: './built/styles',
-        watch: [
-          'src/**/*.sass',
-        ],
+        watch: 'src/**/*.sass',
       },
     };
   }

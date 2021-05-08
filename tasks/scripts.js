@@ -22,9 +22,7 @@ module.exports = class ScriptsTask extends Task {
           '!src/vendor/**/*.js'
         ],
         dest: './built/scripts',
-        watch: [
-          'src/**/*.js',
-        ],
+        watch: 'src/**/*.js',
       },
     };
   }

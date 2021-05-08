@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "properties": {
+    "files": {
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "watch": {
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "variables": {
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "dest": {
+      "type": "string"
+    }
+  }
+}
