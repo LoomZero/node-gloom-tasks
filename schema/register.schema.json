@@ -1,0 +1,48 @@
+{
+  "type": "object",
+  "properties": {
+    "validate": {
+      "type": ["object", "boolean"]
+    },
+    "src": {
+      "type": "string"
+    },
+    "watch": {
+      "type": "object",
+      "properties": {
+        "change": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "link": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "headRegex": {
+      "type": "string"
+    },
+    "defaultType": {
+      "type": "object",
+      "properties": {
+        "css": {
+          "type": "string"
+        },
+        "js": {
+          "type": "string"
+        }
+      }
+    },
+    "types": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object"
+      }
+    }
+  }
+}
