@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "dest": {
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "src": {
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

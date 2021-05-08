@@ -5,19 +5,22 @@
       "type": ["object", "boolean"]
     },
     "src": {
-      "type": "string"
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
     },
     "watch": {
       "type": "object",
       "properties": {
         "change": {
-          "type": "array",
+          "type": ["string", "array"],
           "items": {
             "type": "string"
           }
         },
         "link": {
-          "type": "array",
+          "type": ["string", "array"],
           "items": {
             "type": "string"
           }
