@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "src": {
+      "type": ["string", "array", "boolean"],
+      "items": {
+        "type": "string"
+      }
+    },
+    "dest": {
+      "type": ["string", "array"],
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

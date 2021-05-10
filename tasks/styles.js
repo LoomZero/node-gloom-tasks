@@ -32,7 +32,7 @@ module.exports = class StylesTask extends Task {
     Gulp.task('styles', function stylesCompile() {
       return Gulp.src(config.styles.files)
         .pipe(Sass({
-          includePaths: config.styles.variables,
+          includePaths: config.styles.includes,
           outputStyle: 'compressed'
         }).on('error', Sass.logError))
         .pipe(Rename(function(path) {

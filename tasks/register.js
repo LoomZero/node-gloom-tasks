@@ -62,7 +62,7 @@ module.exports = class RegisterTask extends Task {
             additionalProperties: false,
           },
         },
-        src: 'src/comps/**/*.+(sass|js|yml)',
+        src: ['src/comps/**/*.+(sass|js|yml)', '!src/comps/**/_*.+(sass|js|yml)'],
         watch: {
           change: 'src/**/*.yml',
           link: 'src/**/*.+(sass|js|yml)',
@@ -162,6 +162,7 @@ module.exports = class RegisterTask extends Task {
 
         for (const name in data) {
           const entry = data[name];
+          if (entry === null) continue;
           const info = entry.info && entry.info.library || {};
           const key = info.name || name;
 
@@ -202,7 +203,9 @@ module.exports = class RegisterTask extends Task {
     });
 
     Gulp.task('register:watch', Gulp.series('register', function registerWatch() {
-      if (LibsPlugin) {
+      const LibsPlugin = manager.getPlugin('libs');
+
+      if (LibsPlugin && LibsPlugin.getLibsPath()) {
         Gulp.watch([...config.register.watch.change, LibsPlugin.getLibsPath()], Gulp.parallel('register'))
           .on('change', RegisterTask.onChange);
       } else {

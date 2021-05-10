@@ -25,9 +25,9 @@ module.exports = class LibsTask extends Task {
 
   task() {
     Gulp.task('libs', (cb) => {
-      this.manager.mkdirs(this.manager.path(), ...Path.normalize(this.manager.config.libs.dest).split(Path.sep));
       const srcs = this.getLibsSrc();
       if (srcs) {
+        this.manager.mkdirs(this.manager.path(), ...Path.normalize(this.manager.config.libs.dest).split(Path.sep));
         for (const src of srcs) {
           if (FS.existsSync(src)) {
             FS.writeFileSync(this.manager.path(this.manager.config.libs.dest, Path.basename(src)), FS.readFileSync(src));
