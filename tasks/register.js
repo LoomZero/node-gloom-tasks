@@ -96,7 +96,7 @@ module.exports = class RegisterTask extends Task {
       const target = manager.path(theme + '.libraries.yml');
       const LibsPlugin = manager.getPlugin('libs');
 
-      Glob(manager.path(config.register.src), function(error, files) {
+      Glob(config.register.src, function(error, files) {
         const data = {};
 
         for (const file of files) {
