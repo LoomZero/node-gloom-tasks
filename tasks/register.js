@@ -24,7 +24,7 @@ module.exports = class RegisterTask extends Task {
           type: 'object',
           properties: {
             library: {
-              type: 'object',
+              type: ['object', 'boolean'],
               properties: {
                 name: {
                   type: 'string',
@@ -98,7 +98,7 @@ module.exports = class RegisterTask extends Task {
       const LibsPlugin = manager.getPlugin('libs');
 
       Glob(manager.path(config.register.src), {
-        ignore: config.register.srcIgnore,
+        ignore: manager.path(config.register.srcIgnore),
       }, function(error, files) {
         const data = {};
 
@@ -165,7 +165,7 @@ module.exports = class RegisterTask extends Task {
 
         for (const name in data) {
           const entry = data[name];
-          if (entry === null) continue;
+          if (entry && entry.info && entry.info.library === false) continue;
           const info = entry.info && entry.info.library || {};
           const key = info.name || name;
 
