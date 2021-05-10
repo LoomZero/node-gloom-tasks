@@ -65,7 +65,7 @@ module.exports = class RegisterTask extends Task {
         src: 'src/comps/**/*.+(sass|js|yml)',
         srcIgnore: 'src/comps/**/_*.+(sass|js|yml)',
         watch: {
-          change: 'src/**/*.yml',
+          change: ['src/**/*.yml'],
           link: 'src/**/*.+(sass|js|yml)',
         },
         dest: 'dist',
