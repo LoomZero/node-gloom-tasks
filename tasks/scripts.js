@@ -1,4 +1,4 @@
-const Task = require('gloom-plugin/Task')
+const Task = require('gloom/Task');
 const Gulp = require('gulp');
 const Uglify = require('gulp-uglify');
 const Rename = require('gulp-rename');
