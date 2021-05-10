@@ -36,7 +36,7 @@ module.exports = class StylesTask extends Task {
           outputStyle: 'compressed'
         }).on('error', Sass.logError))
         .pipe(Rename(function(path) {
-          path.dirname = Path.normalize(path.dirname).split(Path.sep).shift();
+          path.dirname = '';
           path.extname = '.min.css';
         }))
         .pipe(Gulp.dest(config.styles.dest));

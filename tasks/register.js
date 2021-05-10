@@ -107,7 +107,6 @@ module.exports = class RegisterTask extends Task {
           const name = parse.name;
 
           parse.file = file;
-          parse.head = file.match(config.register.headRegex)[1];
           data[name] = data[name] || {};
           data[name].name = name;
           data[name][parse.ext.substring(1)] = parse;
@@ -174,24 +173,24 @@ module.exports = class RegisterTask extends Task {
             yml[key].css = { component: {} };
             if (info.css !== undefined) {
               if (typeof info.css === 'string') {
-                yml[key].css.component[config.register.dest + '/styles/' + entry.sass.head + '/' + name + '.min.css'] = config.register.types[info.css];
+                yml[key].css.component[config.register.dest + '/styles/' + name + '.min.css'] = config.register.types[info.css];
               } else {
                 yml[key].css = info.css;
               }
             } else {
-              yml[key].css.component[config.register.dest + '/styles/' + entry.sass.head + '/' + name + '.min.css'] = config.register.types[config.register.defaultType.css];
+              yml[key].css.component[config.register.dest + '/styles/' + name + '.min.css'] = config.register.types[config.register.defaultType.css];
             }
           }
           if (entry.js) {
             yml[key].js = {};
             if (info.js !== undefined) {
               if (typeof info.js === 'string') {
-                yml[key].js[config.register.dest + '/scripts/' + entry.js.head + '/' + name + '.min.js'] = config.register.types[info.js];
+                yml[key].js[config.register.dest + '/scripts/' + name + '.min.js'] = config.register.types[info.js];
               } else {
                 yml[key].js = entry.info.library.js;
               }
             } else {
-              yml[key].js[config.register.dest + '/scripts/' + entry.js.head + '/' + name + '.min.js'] = config.register.types[config.register.defaultType.js];
+              yml[key].js[config.register.dest + '/scripts/' + name + '.min.js'] = config.register.types[config.register.defaultType.js];
             }
           }
           for (const prop in info) {

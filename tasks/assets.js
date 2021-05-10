@@ -11,8 +11,8 @@ module.exports = class AssetsTask extends Task {
   defaultConfig() {
     return {
       assets: {
-        dest: 'built/assets',
-        src: 'src/assets/**/*',
+        dest: 'dist/assets',
+        src: ['src/assets/**/*', '!src/assets/README.md'],
       },
     };
   }

@@ -32,7 +32,7 @@ module.exports = class ScriptsTask extends Task {
       return Gulp.src(config.scripts.files)
         .pipe(Uglify().on('error', console.log))
         .pipe(Rename(function(path) {
-          path.dirname = Path.normalize(path.dirname).split(Path.sep).shift();
+          path.dirname = '';
           path.extname = '.min.js';
         }))
         .pipe(Gulp.dest(config.scripts.dest));
