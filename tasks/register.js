@@ -137,7 +137,7 @@ module.exports = class RegisterTask extends Task {
                   }
   
                   if (!file.startsWith('http') && !file.startsWith('/')) {
-                    const newName = config.register.dest + '/styles/libs/' + Path.basename(file);
+                    const newName = config.register.dest + '/libs/' + Path.basename(file);
                     entry.css[type][newName] = entry.css[type][file];
                     delete entry.css[type][file];
                   }
@@ -151,7 +151,7 @@ module.exports = class RegisterTask extends Task {
                 }
   
                 if (!file.startsWith('http') && !file.startsWith('/')) {
-                  const newName = config.register.dest + '/scripts/libs/' + Path.basename(file);
+                  const newName = config.register.dest + '/libs/' + Path.basename(file);
                   entry.js[newName] = entry.js[file];
                   delete entry.js[file];
                 }
