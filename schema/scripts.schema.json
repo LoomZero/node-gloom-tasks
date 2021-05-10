@@ -16,5 +16,6 @@
     "dest": {
       "type": "string"
     }
-  }
+  },
+  "additionalProperties": false
 }

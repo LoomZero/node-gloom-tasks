@@ -62,7 +62,8 @@ module.exports = class RegisterTask extends Task {
             additionalProperties: false,
           },
         },
-        src: ['src/comps/**/*.+(sass|js|yml)', '!src/comps/**/_*.+(sass|js|yml)'],
+        src: 'src/comps/**/*.+(sass|js|yml)',
+        srcIgnore: 'src/comps/**/_*.+(sass|js|yml)',
         watch: {
           change: 'src/**/*.yml',
           link: 'src/**/*.+(sass|js|yml)',
@@ -96,7 +97,9 @@ module.exports = class RegisterTask extends Task {
       const target = manager.path(theme + '.libraries.yml');
       const LibsPlugin = manager.getPlugin('libs');
 
-      Glob(config.register.src, function(error, files) {
+      Glob(manager.path(config.register.src), {
+        ignore: config.register.srcIgnore,
+      }, function(error, files) {
         const data = {};
 
         for (const file of files) {

@@ -5,10 +5,10 @@
       "type": ["object", "boolean"]
     },
     "src": {
-      "type": ["string", "array"],
-      "items": {
-        "type": "string"
-      }
+      "type": "string"
+    },
+    "srcIgnore": {
+      "type": "string"
     },
     "watch": {
       "type": "object",
@@ -47,5 +47,6 @@
         "type": "object"
       }
     }
-  }
+  },
+  "additionalProperties": false
 }
