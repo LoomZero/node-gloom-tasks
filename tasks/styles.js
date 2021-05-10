@@ -18,14 +18,12 @@ module.exports = class StylesTask extends Task {
     return {
       styles: {
         files: [
-          'src/**/*.sass',
-          '!./src/vendor/**/*.sass',
-          '!./src/variables/*.sass',
-          '!src/**/_*.sass'
+          'src/components/**/*.sass',
+          '!src/components/**/_*.sass'
         ],
-        variables: './src/variables',
-        dest: './built/styles',
-        watch: 'src/**/*.sass',
+        includes: './src/includes',
+        dest: './dist/styles',
+        watch: 'src/components/**/*.sass',
       },
     };
   }

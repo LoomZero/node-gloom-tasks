@@ -18,11 +18,11 @@ module.exports = class ScriptsTask extends Task {
     return {
       scripts: {
         files: [
-          'src/**/*.js',
-          '!src/vendor/**/*.js'
+          'src/components/**/*.js',
+          '!src/components/**/_*.js'
         ],
-        dest: './built/scripts',
-        watch: 'src/**/*.js',
+        dest: './dist/scripts',
+        watch: 'src/components/**/*.js',
       },
     };
   }

@@ -62,10 +62,10 @@ module.exports = class RegisterTask extends Task {
             additionalProperties: false,
           },
         },
-        src: 'src/+(base|components)/**/*.+(sass|js|yml)',
+        src: 'src/components/**/*.+(sass|js|yml)',
         watch: {
-          change: ['src/+(base|components)/**/*.yml'],
-          link: ['src/+(base|components)/**/*.+(sass|js|yml)'],
+          change: 'src/components/**/*.yml',
+          link: 'src/components/**/*.+(sass|js|yml)',
         },
         headRegex: 'src\/([^\/]*)',
         defaultType: {
