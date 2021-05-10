@@ -38,7 +38,10 @@ module.exports = class LibsTask extends Task {
     });
 
     Gulp.task('libs:watch', Gulp.series('libs', (cb) => {
-      Gulp.watch(this.getLibsPath(), Gulp.parallel('libs'));
+      const path = this.getLibsPath();
+      if (path) {
+        Gulp.watch(path, Gulp.parallel('libs'));
+      }
 
       return cb();
     }));
