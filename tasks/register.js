@@ -62,11 +62,12 @@ module.exports = class RegisterTask extends Task {
             additionalProperties: false,
           },
         },
-        src: 'src/components/**/*.+(sass|js|yml)',
+        src: 'src/comps/**/*.+(sass|js|yml)',
         watch: {
-          change: 'src/components/**/*.yml',
-          link: 'src/components/**/*.+(sass|js|yml)',
+          change: 'src/**/*.yml',
+          link: 'src/**/*.+(sass|js|yml)',
         },
+        dest: 'dist',
         headRegex: 'src\/([^\/]*)',
         defaultType: {
           css: 'static',
@@ -93,7 +94,7 @@ module.exports = class RegisterTask extends Task {
 
       const theme = Path.basename(manager.path());
       const target = manager.path(theme + '.libraries.yml');
-      const vendor = Yaml.load(FS.readFileSync(manager.path(config.vendor, 'vendor.yml')).toString());
+      const LibsPlugin = manager.getPlugin('libs');
 
       Glob(manager.path(config.register.src), function(error, files) {
         const data = {};
@@ -121,40 +122,44 @@ module.exports = class RegisterTask extends Task {
         }
 
         const yml = {};
-        for (const item in vendor) {
-          const entry = vendor[item];
-
-          if (entry.css) {
-            for (const type in entry.css) {
-              for (const file in entry.css[type]) {
-                if (typeof entry.css[type][file] === 'string') {
-                  entry.css[type][file] = config.register.types[entry.css[type][file]];
+        if (LibsPlugin) {
+          const libs = LibsPlugin.getLibsData();
+          for (const item in libs) {
+            const entry = libs[item];
+  
+            if (entry.css) {
+              for (const type in entry.css) {
+                for (const file in entry.css[type]) {
+                  if (typeof entry.css[type][file] === 'string') {
+                    entry.css[type][file] = config.register.types[entry.css[type][file]];
+                  }
+  
+                  if (!file.startsWith('http') && !file.startsWith('/')) {
+                    const newName = config.register.dest + '/styles/libs/' + Path.basename(file);
+                    entry.css[type][newName] = entry.css[type][file];
+                    delete entry.css[type][file];
+                  }
                 }
-
+              }
+            }
+            if (entry.js) {
+              for (const file in entry.js) {
+                if (typeof entry.js[file] === 'string') {
+                  entry.js[file] = config.register.types[entry.js[file]];
+                }
+  
                 if (!file.startsWith('http') && !file.startsWith('/')) {
-                  const newName = 'built/styles/vendor/' + Path.basename(file);
-                  entry.css[type][newName] = entry.css[type][file];
-                  delete entry.css[type][file];
+                  const newName = config.register.dest + '/scripts/libs/' + Path.basename(file);
+                  entry.js[newName] = entry.js[file];
+                  delete entry.js[file];
                 }
               }
             }
+  
+            yml[item] = entry;
           }
-          if (entry.js) {
-            for (const file in entry.js) {
-              if (typeof entry.js[file] === 'string') {
-                entry.js[file] = config.register.types[entry.js[file]];
-              }
-
-              if (!file.startsWith('http') && !file.startsWith('/')) {
-                const newName = 'built/scripts/vendor/' + Path.basename(file);
-                entry.js[newName] = entry.js[file];
-                delete entry.js[file];
-              }
-            }
-          }
-
-          yml[item] = entry;
         }
+
         for (const name in data) {
           const entry = data[name];
           const info = entry.info && entry.info.library || {};
@@ -165,24 +170,24 @@ module.exports = class RegisterTask extends Task {
             yml[key].css = { component: {} };
             if (info.css !== undefined) {
               if (typeof info.css === 'string') {
-                yml[key].css.component['built/styles/' + entry.sass.head + '/' + name + '.min.css'] = config.register.types[info.css];
+                yml[key].css.component[config.register.dest + '/styles/' + entry.sass.head + '/' + name + '.min.css'] = config.register.types[info.css];
               } else {
                 yml[key].css = info.css;
               }
             } else {
-              yml[key].css.component['built/styles/' + entry.sass.head + '/' + name + '.min.css'] = config.register.types[config.register.defaultType.css];
+              yml[key].css.component[config.register.dest + '/styles/' + entry.sass.head + '/' + name + '.min.css'] = config.register.types[config.register.defaultType.css];
             }
           }
           if (entry.js) {
             yml[key].js = {};
             if (info.js !== undefined) {
               if (typeof info.js === 'string') {
-                yml[key].js['built/scripts/' + entry.js.head + '/' + name + '.min.js'] = config.register.types[info.js];
+                yml[key].js[config.register.dest + '/scripts/' + entry.js.head + '/' + name + '.min.js'] = config.register.types[info.js];
               } else {
                 yml[key].js = entry.info.library.js;
               }
             } else {
-              yml[key].js['built/scripts/' + entry.js.head + '/' + name + '.min.js'] = config.register.types[config.register.defaultType.js];
+              yml[key].js[config.register.dest + '/scripts/' + entry.js.head + '/' + name + '.min.js'] = config.register.types[config.register.defaultType.js];
             }
           }
           for (const prop in info) {
@@ -197,8 +202,14 @@ module.exports = class RegisterTask extends Task {
     });
 
     Gulp.task('register:watch', Gulp.series('register', function registerWatch() {
-      Gulp.watch([...config.register.watch.change, manager.path(config.vendor, 'vendor.yml')], Gulp.parallel('register'))
-        .on('change', RegisterTask.onChange);
+      if (LibsPlugin) {
+        Gulp.watch([...config.register.watch.change, LibsPlugin.getLibsPath()], Gulp.parallel('register'))
+          .on('change', RegisterTask.onChange);
+      } else {
+        Gulp.watch(config.register.watch.change, Gulp.parallel('register'))
+          .on('change', RegisterTask.onChange);
+      }
+       
 
       Gulp.watch(config.register.watch.link, { events: ['add', 'unlink'], delay: 1000 }, Gulp.parallel('register'))
         .on('change', RegisterTask.onChange);

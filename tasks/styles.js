@@ -18,34 +18,18 @@ module.exports = class StylesTask extends Task {
     return {
       styles: {
         files: [
-          'src/components/**/*.sass',
-          '!src/components/**/_*.sass'
+          'src/comps/**/*.sass',
+          '!src/comps/**/_*.sass'
         ],
         includes: './src/includes',
         dest: './dist/styles',
-        watch: 'src/components/**/*.sass',
+        watch: 'src/comps/**/*.sass',
       },
     };
   }
 
   task(config, manager) {
-    const vendorpath = manager.path(config.vendor, 'vendor.json');
-
-    Gulp.task('styles:vendor', function(cb) {
-      delete require.cache[vendorpath];
-      const vendor = require(vendorpath);
-      const styles = (vendor.styles || []).map((path) => Path.join(config.vendor, path));
-
-      if (!styles.length) return cb();
-
-      return Gulp.src(styles)
-        .pipe(Rename(function(path) {
-          path.dirname = 'vendor';
-        }))
-        .pipe(Gulp.dest(config.styles.dest));
-    });
-
-    Gulp.task('styles', Gulp.parallel('styles:vendor', function stylesCompile() {
+    Gulp.task('styles', function stylesCompile() {
       return Gulp.src(config.styles.files)
         .pipe(Sass({
           includePaths: config.styles.variables,
@@ -56,10 +40,10 @@ module.exports = class StylesTask extends Task {
           path.extname = '.min.css';
         }))
         .pipe(Gulp.dest(config.styles.dest));
-    }));
+    });
 
     Gulp.task('styles:watch', Gulp.series('styles', function stylesWatch(cb) {
-      Gulp.watch([...config.styles.watch, vendorpath], Gulp.parallel('styles'))
+      Gulp.watch(config.styles.watch, Gulp.parallel('styles'))
         .on('change', function(path) {
           console.log('Trigger "styles" by changing "' + Path.basename(path) + '"');
         });
