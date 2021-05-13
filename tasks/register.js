@@ -95,7 +95,7 @@ module.exports = class RegisterTask extends Task {
 
       const theme = Path.basename(manager.path());
       const target = manager.path(theme + '.libraries.yml');
-      const LibsPlugin = manager.getPlugin('libs');
+      const libsPlugin = manager.getPlugin('libs');
 
       Glob(manager.path(config.register.src), {
         ignore: manager.path(config.register.srcIgnore),
@@ -124,8 +124,8 @@ module.exports = class RegisterTask extends Task {
         }
 
         const yml = {};
-        if (LibsPlugin) {
-          const libs = LibsPlugin.getLibsData();
+        if (libsPlugin) {
+          const libs = libsPlugin.getLibsData();
           for (const item in libs) {
             const entry = libs[item];
   
@@ -205,10 +205,10 @@ module.exports = class RegisterTask extends Task {
     });
 
     Gulp.task('register:watch', Gulp.series('register', function registerWatch() {
-      const LibsPlugin = manager.getPlugin('libs');
+      const libsPlugin = manager.getPlugin('libs');
 
-      if (LibsPlugin && LibsPlugin.getLibsPath()) {
-        Gulp.watch([...config.register.watch.change, LibsPlugin.getLibsPath()], Gulp.parallel('register'))
+      if (libsPlugin && libsPlugin.getLibsPath()) {
+        Gulp.watch([...config.register.watch.change, libsPlugin.getLibsPath()], Gulp.parallel('register'))
           .on('change', RegisterTask.onChange);
       } else {
         Gulp.watch(config.register.watch.change, Gulp.parallel('register'))

@@ -12,6 +12,9 @@
       "items": {
         "type": "string"
       }
+    },
+    "file": {
+      "type": "string"
     }
   },
   "additionalProperties": false

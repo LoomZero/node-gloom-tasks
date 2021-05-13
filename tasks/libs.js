@@ -19,6 +19,7 @@ module.exports = class LibsTask extends Task {
       libs: {
         src: 'src/libs',
         dest: 'dist/libs',
+        file: 'libs.yml',
       },
     };
   }
@@ -49,7 +50,7 @@ module.exports = class LibsTask extends Task {
 
   getLibsPath() {
     if (this.manager.config.libs.src === false) return null;
-    const libpath = this.manager.path(this.manager.config.libs.src, 'libs.yml');
+    const libpath = this.manager.path(this.manager.config.libs.src, this.manager.config.libs.file);
     if (FS.existsSync(libpath)) {
       return libpath;
     } else {
