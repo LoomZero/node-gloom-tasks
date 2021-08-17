@@ -1,6 +1,6 @@
 const Task = require('gloom/Task');
 const Gulp = require('gulp');
-const Sass = require('gulp-dart-sass');
+const Sass = require('gulp-sass')(require('sass'));
 const Rename = require('gulp-rename');
 const Path = require('path');
 
