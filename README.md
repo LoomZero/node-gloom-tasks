@@ -40,9 +40,8 @@ module.exports = class StylesTask extends Task {
           console.log('<yourtaskname>" did something"');
         });
     
-        return cb();
-      }));
-    }
+      return cb();
+    }));
   }
 
 }
