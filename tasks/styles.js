@@ -19,7 +19,7 @@ module.exports = class StylesTask extends Task {
       styles: {
         files: [
           'src/comps/**/*.sass',
-          '!src/comps/**/_*.sass'
+          '!src/comps/**/_*.sass',
         ],
         includes: './src/includes',
         dest: './dist/styles',
