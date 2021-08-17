@@ -19,7 +19,7 @@
     "gulp-uglify": "^3.0.2",
     "js-yaml": "^4.1.0",
     "jsonschema": "^1.4.0",
-    "string-similarity": "^4.0.4",
-    "sass": "^1.37.5"
+    "sass": "^1.37.5",
+    "string-similarity": "^4.0.4"
   }
 }
