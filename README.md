@@ -12,7 +12,7 @@ If you came here to add your own task(s) follow the instructions below.
 const Task = require('gloom/Task');
 const Gulp = require('gulp');
 
-module.exports = class <yourtaskname>Task extends Task {
+module.exports = class YourCustomTask extends Task {
 
   key() {
     return '<yourtaskname>';
@@ -26,7 +26,7 @@ module.exports = class <yourtaskname>Task extends Task {
   }
   
   task() {
-    Gulp.task('<yourtaskname>', function customtask() {
+    Gulp.task('<yourtaskname>', function yourCustomTaskFunction() {
        // your code 
     });
 
@@ -34,7 +34,7 @@ module.exports = class <yourtaskname>Task extends Task {
     // ####
     // Watch Command Example
     // ###
-    Gulp.task('<yourtaskname>:watch', Gulp.series('<yourtaskname>', function <yourtaskname>Watch(cb) {
+    Gulp.task('<yourtaskname>:watch', Gulp.series('<yourtaskname>', function yourCustomTaskWatchFunction(cb) {
       Gulp.watch(<yoursourcefiles>, Gulp.parallel('<yourtaskname>'))
         .on('change', function(path) {
           console.log('<yourtaskname>" did something"');
