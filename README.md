@@ -1,7 +1,8 @@
-# For installation instructions look here: [node-gloom-cli](https://github.com/loomgmbh/node-gloom-cli)
+# How to create Custom Tasks
+
+## NOTE: To install the compiler to your theme please follow the instrucstions for [node-gloom-cli](https://github.com/loomgmbh/node-gloom-cli)
 If you came here to add your own task(s) follow the instructions below.
 
-## How to create Custom Tasks
 - create folder /themes/{themename}/tasks
 - add your {task}.js into it
 - you can change the order weight of the tasks and/or add it to the default jobs by adding your taskname to the respective object in the gloom.json.
