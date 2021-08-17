@@ -12,7 +12,7 @@ If you came here to add your own task(s) follow the instructions below.
 const Task = require('gloom/Task');
 const Gulp = require('gulp');
 
-module.exports = class StylesTask extends Task {
+module.exports = class <yourtaskname>Task extends Task {
 
   key() {
     return '<yourtaskname>';
