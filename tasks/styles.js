@@ -31,7 +31,7 @@ module.exports = class StylesTask extends Task {
   task(config, manager) {
     Gulp.task('styles', function stylesCompile() {
       return Gulp.src(config.styles.files)
-        .pipe(Sass({
+        .pipe(Sass.sync({
           includePaths: config.styles.includes,
           outputStyle: 'compressed'
         }).on('error', Sass.logError))
