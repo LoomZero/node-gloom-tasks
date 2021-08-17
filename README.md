@@ -5,7 +5,7 @@ If you came here to add your own task(s) follow the instructions below.
 
 - create folder /themes/{themename}/tasks
 - add your {task}.js into it
-- you can change the order weight of the tasks and/or add it to the default jobs by adding your taskname to the respective object in the gloom.json.
+- you can change the order weight and/or add it to the default jobs by adding your taskname to the respective object in the gloom.json.
   
 ## Template for the lazy
 ```js
