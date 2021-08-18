@@ -31,7 +31,7 @@ module.exports = class YourCustomTask extends Task {
     });
 
 
-    // ####
+    // ###
     // Watch Command Example
     // ###
     Gulp.task('<yourtaskname>:watch', Gulp.series('<yourtaskname>', function yourCustomTaskWatchFunction(cb) {
