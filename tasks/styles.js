@@ -3,6 +3,7 @@ const Gulp = require('gulp');
 const Sass = require('gulp-sass')(require('sass'));
 const Rename = require('gulp-rename');
 const Path = require('path');
+const Dependents = require('gulp-dependents')
 
 module.exports = class StylesTask extends Task {
 
@@ -30,7 +31,8 @@ module.exports = class StylesTask extends Task {
 
   task(config, manager) {
     Gulp.task('styles', function stylesCompile() {
-      return Gulp.src(config.styles.files)
+      return Gulp.src(config.styles.files, { since: Gulp.lastRun('styles') })
+        .pipe(Dependents())
         .pipe(Sass.sync({
           includePaths: config.styles.includes,
           outputStyle: 'compressed'

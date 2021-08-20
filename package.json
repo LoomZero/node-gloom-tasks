@@ -14,6 +14,7 @@
     "gloom": "git+https://github.com/loomgmbh/node-gloom.git",
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
+    "gulp-dependents": "^1.2.5",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-twig": "^1.2.0",
