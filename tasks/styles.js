@@ -39,7 +39,7 @@ module.exports = class StylesTask extends Task {
           outputStyle: 'compressed'
         }).on('error', Sass.logError))
         .pipe(Autoprefixer({
-          grid: autoplace,
+          grid: true,
         }))
         .pipe(Rename(function(path) {
           path.dirname = '';
