@@ -4,6 +4,7 @@ const Sass = require('gulp-sass')(require('sass'));
 const Rename = require('gulp-rename');
 const Path = require('path');
 const Dependents = require('gulp-dependents')
+const Autoprefixer = require('gulp-autoprefixer');
 
 module.exports = class StylesTask extends Task {
 
@@ -37,6 +38,9 @@ module.exports = class StylesTask extends Task {
           includePaths: config.styles.includes,
           outputStyle: 'compressed'
         }).on('error', Sass.logError))
+        .pipe(Autoprefixer({
+          grid: autoplace,
+        }))
         .pipe(Rename(function(path) {
           path.dirname = '';
           path.extname = '.min.css';
