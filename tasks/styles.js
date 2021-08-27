@@ -26,6 +26,7 @@ module.exports = class StylesTask extends Task {
         includes: './src/includes',
         dest: './dist/styles',
         watch: 'src/comps/**/*.sass',
+        autoprefixer: {},
       },
     };
   }
@@ -38,9 +39,7 @@ module.exports = class StylesTask extends Task {
           includePaths: config.styles.includes,
           outputStyle: 'compressed'
         }).on('error', Sass.logError))
-        .pipe(Autoprefixer({
-          grid: true,
-        }))
+        .pipe(Autoprefixer(config.styles.autoprefixer))
         .pipe(Rename(function(path) {
           path.dirname = '';
           path.extname = '.min.css';
