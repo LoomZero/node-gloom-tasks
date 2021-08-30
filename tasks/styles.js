@@ -39,11 +39,13 @@ module.exports = class StylesTask extends Task {
           outputStyle: 'compressed'
         }).on('error', Sass.logError));
 
-      let Autoprefixer = null;
-      try {
-        Autoprefixer = require('gulp-autoprefixer');
-        pipeline = pipeline.pipe(Autoprefixer(config.styles.autoprefixer));
-      } catch (e) {}
+      if (config.styles.autoprefixer !== false) {
+        let Autoprefixer = null;
+        try {
+          Autoprefixer = require('gulp-autoprefixer');
+          pipeline = pipeline.pipe(Autoprefixer(config.styles.autoprefixer));
+        } catch (e) {}
+      }
 
       return pipeline.pipe(Rename(function(path) {
           path.dirname = '';
