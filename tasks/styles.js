@@ -39,14 +39,11 @@ module.exports = class StylesTask extends Task {
           outputStyle: 'compressed'
         }).on('error', Sass.logError));
 
-      console.log(config.styles.autoprefixer);
       if (config.styles.autoprefixer !== false) {
         let Autoprefixer = null;
         try {
-          console.log('Try to load autoprefixer');
           Autoprefixer = require('gulp-autoprefixer');
           pipeline = pipeline.pipe(Autoprefixer(config.styles.autoprefixer));
-          console.log('Loaded autoprefix');
         } catch (e) {}
       }
 
