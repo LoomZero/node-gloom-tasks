@@ -29,7 +29,7 @@ module.exports = class ScriptsTask extends Task {
 
   task(config, manager) {
     Gulp.task('scripts', function scriptsCompile() {
-      return Gulp.src(config.scripts.files)
+      return Gulp.src(config.scripts.files, { since: Gulp.lastRun('scripts') })
         .pipe(Uglify().on('error', console.log))
         .pipe(Rename(function(path) {
           path.dirname = '';
