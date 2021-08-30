@@ -43,8 +43,10 @@ module.exports = class StylesTask extends Task {
         let Autoprefixer = null;
         try {
           Autoprefixer = require('gulp-autoprefixer');
-          pipeline = pipeline.pipe(Autoprefixer(config.styles.autoprefixer));
         } catch (e) {}
+        if (Autoprefixer !== null) {
+          pipeline = pipeline.pipe(Autoprefixer(config.styles.autoprefixer));
+        }
       }
 
       return pipeline.pipe(Rename(function(path) {
