@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TerraZero",
+  "contributors": [{
+    "name": "OBChao"
+  }],
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.1",
@@ -23,5 +26,8 @@
     "jsonschema": "^1.4.0",
     "sass": "^1.37.5",
     "string-similarity": "^4.0.4"
+  },
+  "peerDependencies": {
+    "gulp-autoprefixer": "^8.0.0"
   }
 }

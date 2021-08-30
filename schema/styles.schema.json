@@ -21,7 +21,10 @@
     },
     "dest": {
       "type": "string"
-    }
+    },
+    "autoprefixer": {
+      "type": ["boolean", "object"]
+    } 
   },
   "additionalProperties": false
 }
