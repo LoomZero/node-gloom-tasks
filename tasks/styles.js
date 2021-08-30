@@ -32,18 +32,21 @@ module.exports = class StylesTask extends Task {
 
   task(config, manager) {
     Gulp.task('styles', function stylesCompile() {
-      const pipeline = Gulp.src(config.styles.files, { since: Gulp.lastRun('styles') })
+      let pipeline = Gulp.src(config.styles.files, { since: Gulp.lastRun('styles') })
         .pipe(Dependents())
         .pipe(Sass.sync({
           includePaths: config.styles.includes,
           outputStyle: 'compressed'
         }).on('error', Sass.logError));
 
+      console.log(config.styles.autoprefixer);
       if (config.styles.autoprefixer !== false) {
         let Autoprefixer = null;
         try {
+          console.log('Try to load autoprefixer');
           Autoprefixer = require('gulp-autoprefixer');
           pipeline = pipeline.pipe(Autoprefixer(config.styles.autoprefixer));
+          console.log('Loaded autoprefix');
         } catch (e) {}
       }
 
