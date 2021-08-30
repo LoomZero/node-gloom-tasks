@@ -7,9 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TerraZero",
-  "contributors": [{
-    "name": "OBChao"
-  }],
+  "contributors": [
+    {
+      "name": "OBChao"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.1",
