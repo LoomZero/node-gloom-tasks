@@ -1,7 +1,4 @@
 {
-  "browserslist": [
-    "defaults"
-  ],
   "name": "gloom-tasks",
   "version": "1.0.0",
   "description": "",
@@ -10,13 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "TerraZero",
+  "contributors": [{
+    "name": "OBChao"
+  }],
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.1",
     "glob": "^7.1.7",
     "gloom": "git+https://github.com/loomgmbh/node-gloom.git",
     "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^8.0.0",
     "gulp-changed": "^4.0.2",
     "gulp-dependents": "^1.2.5",
     "gulp-rename": "^2.0.0",
@@ -27,5 +26,8 @@
     "jsonschema": "^1.4.0",
     "sass": "^1.37.5",
     "string-similarity": "^4.0.4"
+  },
+  "peerDependencies": {
+    "gulp-autoprefixer": "^8.0.0"
   }
 }
