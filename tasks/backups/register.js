@@ -1,4 +1,5 @@
-const Task = require('gloom/Task');
+const Plugin = require('gloom/Plugin');
+
 const Gulp = require('gulp');
 const Glob = require('glob');
 const Path = require('path');
@@ -7,98 +8,96 @@ const FS = require('fs');
 const Chalk = require('chalk');
 const Similarity = require('string-similarity');
 
-module.exports = class RegisterTask extends Task {
+module.exports = class RegisterPlugin extends Plugin {
 
-  key() {
+  init() {
+    this.info.addWatcher('register:watch');
+  }
+
+  get plugin() {
     return 'register';
   }
 
-  tags() {
-    return ['watcher'];
-  }
-
-  defaultConfig() {
+  get config() {
     return {
-      register: {
-        validate: {
-          type: 'object',
-          properties: {
-            library: {
-              type: ['object', 'boolean'],
-              properties: {
-                name: {
-                  type: 'string',
-                },
-                js: {
-                  type: ['object', 'string'],
-                },
-                css: {
-                  type: ['object', 'string'],
-                  properties: {
-                    base: {
-                      type: 'object',
-                    },
-                    layout: {
-                      type: 'object',
-                    },
-                    component: {
-                      type: 'object',
-                    },
-                    state: {
-                      type: 'object',
-                    },
-                    theme: {
-                      type: 'object',
-                    },
-                  },
-                  additionalProperties: false,
-                },
-                dependencies: {
-                  type: 'array',
-                },
+      validate: {
+        type: 'object',
+        properties: {
+          library: {
+            type: ['object', 'boolean'],
+            properties: {
+              name: {
+                type: 'string',
               },
-              additionalProperties: false,
+              js: {
+                type: ['object', 'string'],
+              },
+              css: {
+                type: ['object', 'string'],
+                properties: {
+                  base: {
+                    type: 'object',
+                  },
+                  layout: {
+                    type: 'object',
+                  },
+                  component: {
+                    type: 'object',
+                  },
+                  state: {
+                    type: 'object',
+                  },
+                  theme: {
+                    type: 'object',
+                  },
+                },
+                additionalProperties: false,
+              },
+              dependencies: {
+                type: 'array',
+              },
             },
             additionalProperties: false,
           },
+          additionalProperties: false,
         },
-        src: 'src/comps/**/*.+(sass|js|yml)',
-        srcIgnore: 'src/comps/**/_*.+(sass|js|yml)',
-        watch: {
-          change: ['src/**/*.yml'],
-          link: 'src/**/*.+(sass|js|yml)',
+      },
+      src: 'src/comps/**/*.+(sass|js|yml)',
+      srcIgnore: 'src/comps/**/_*.+(sass|js|yml)',
+      watch: {
+        change: ['src/**/*.yml'],
+        link: 'src/**/*.+(sass|js|yml)',
+      },
+      dest: 'dist',
+      headRegex: 'src\/([^\/]*)',
+      defaultType: {
+        css: 'static',
+        js: 'static',
+      },
+      types: {
+        static: {
+          minified: true,
+          preprocess: false,
         },
-        dest: 'dist',
-        headRegex: 'src\/([^\/]*)',
-        defaultType: {
-          css: 'static',
-          js: 'static',
-        },
-        types: {
-          static: {
-            minified: true,
-            preprocess: false,
-          },
-          defer: {
-            minified: true,
-            preprocess: false,
-            defer: true
-          }
-        },
+        defer: {
+          minified: true,
+          preprocess: false,
+          defer: true
+        }
       },
     };
   }
 
-  task(config, manager) {
-    Gulp.task('register', function(cb) {
+  define() {
+    Gulp.task('register', (cb) => {
       const validate = require('jsonschema').validate;
 
-      const theme = Path.basename(manager.path());
-      const target = manager.path(theme + '.libraries.yml');
-      const libsPlugin = manager.getPlugin('libs');
+      const theme = Path.basename(this.manager.path());
+      const target = this.manager.path(theme + '.libraries.yml');
+      const libsPlugin = this.manager.getPlugin('libs');
 
-      Glob(manager.path(config.register.src), {
-        ignore: manager.path(config.register.srcIgnore),
+      Glob(this.manager.path(config.register.src), {
+        ignore: this.manager.path(config.register.srcIgnore),
       }, function(error, files) {
         const data = {};
 
@@ -204,19 +203,19 @@ module.exports = class RegisterTask extends Task {
       });
     });
 
-    Gulp.task('register:watch', Gulp.series('register', function registerWatch() {
-      const libsPlugin = manager.getPlugin('libs');
+    Gulp.task('register:watch', Gulp.series('register', () => {
+      const libsPlugin = this.manager.getPlugin('libs');
 
       if (libsPlugin && libsPlugin.getLibsPath()) {
-        Gulp.watch([...config.register.watch.change, libsPlugin.getLibsPath()], Gulp.parallel('register'))
+        Gulp.watch([...this.config.watch.change, libsPlugin.getLibsPath()], Gulp.parallel('register'))
           .on('change', RegisterTask.onChange);
       } else {
-        Gulp.watch(config.register.watch.change, Gulp.parallel('register'))
+        Gulp.watch(this.config.watch.change, Gulp.parallel('register'))
           .on('change', RegisterTask.onChange);
       }
        
 
-      Gulp.watch(config.register.watch.link, { events: ['add', 'unlink'], delay: 1000 }, Gulp.parallel('register'))
+      Gulp.watch(this.config.watch.link, { events: ['add', 'unlink'], delay: 1000 }, Gulp.parallel('register'))
         .on('change', RegisterTask.onChange);
     }));
   }

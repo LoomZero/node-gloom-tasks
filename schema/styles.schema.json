@@ -22,6 +22,9 @@
     "dest": {
       "type": "string"
     },
+    "includes": {
+      "type": "string"
+    },
     "autoprefixer": {
       "type": ["boolean", "object"]
     } 

@@ -16,7 +16,6 @@
   "dependencies": {
     "chalk": "^4.1.1",
     "glob": "^7.1.7",
-    "gloom": "git+https://github.com/loomgmbh/node-gloom.git",
     "gulp": "^4.0.2",
     "gulp-changed": "^4.0.2",
     "gulp-dependents": "^1.2.5",

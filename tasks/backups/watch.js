@@ -1,24 +1,22 @@
-const Task = require('gloom/Task');
+const Plugin = require('gloom/Plugin');
 const Gulp = require('gulp');
 
-module.exports = class WatchTask extends Task {
+module.exports = class WatchPlugin extends Plugin {
 
-  key() {
+  get plugin() {
     return 'watch';
   }
 
-  defaultConfig() {
+  get config() {
     return {
-      watchers: {
-        default: [],
-      },
+      default: [],
     };
   }
 
-  task(config, manager) {
-    for (const mode in config.watchers) {
+  define() {
+    for (const mode in this.config) {
       const plugins = manager.getTaggedPlugins(['watcher', 'watcher:' + mode]);
-      const tasks = [...config.watchers[mode]];
+      const tasks = [...this.config[mode]];
   
       for (const name in plugins) {
         const task = manager.findTask(plugins[name].key() + ':watch:' + mode, 2);

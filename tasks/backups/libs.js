@@ -1,30 +1,24 @@
-const Task = require('gloom/Task');
+const Plugin = require('gloom/Plugin');
 const Gulp = require('gulp');
 const FS = require('fs');
 const Path = require('path');
 const Yaml = require('js-yaml');
 
-module.exports = class LibsTask extends Task {
+module.exports = class LibsPlugin extends Plugin {
 
-  key() {
+  get plugin() {
     return 'libs';
   }
 
-  tags() {
-    return ['watcher'];
-  }
-
-  defaultConfig() {
+  get config() {
     return {
-      libs: {
-        src: 'src/libs',
-        dest: 'dist/libs',
-        file: 'libs.yml',
-      },
+      src: 'src/libs',
+      dest: 'dist/libs',
+      file: 'libs.yml',
     };
   }
 
-  task() {
+  define() {
     Gulp.task('libs', (cb) => {
       const srcs = this.getLibsSrc();
       if (srcs) {
