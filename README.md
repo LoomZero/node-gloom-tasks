@@ -1,3 +1,11 @@
+
+---
+**ABANDONED - DO NOT USE**
+
+This project has moved to https://gitlab.loom.de/loom/node-modules/gloom-tasks 
+
+---
+
 # 1. - Gloom Tasks (ToC)
 
 - [1. - Gloom Tasks (ToC)](#1---gloom-tasks-toc)
