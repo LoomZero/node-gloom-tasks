@@ -84,5 +84,5 @@ module.exports = class YourCustomTask extends Task {
 - use this command in your theme directory
 
 ```shell
-gloom custom task create <taskname>
+gloom task:create <taskname>
 ```
